@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- 开启Srping MVC的注解驱动特性 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <!--responseBody转json-->
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>
+                <property name="features">
+                    <array>
+                        <!--日期自动格式化-->
+                        <value>WriteDateUseDateFormat</value>
+                    </array>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <context:component-scan base-package="com.rivendell.web"/>
+
+    <!--spring placeholder -->
+    <context:property-placeholder location="classpath:config.properties"/>
+
+    <!--&lt;!&ndash; Enables the Spring @Async &ndash;&gt;-->
+    <!--<task:annotation-driven executor="executor"/>-->
+    <!--<task:executor id="executor" pool-size="5-10" queue-capacity="200" keep-alive="30"/>-->
+
+    <!-- 文件上传相关 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+
+
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/
+       directory -->
+
+    <mvc:resources mapping="/" location="/index.htm"/>
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
+    <mvc:resources mapping="/css/**" location="/assets/css/"/>
+    <mvc:resources mapping="/js/**" location="/assets/js/"/>
+    <mvc:resources mapping="/img/**" location="/assets/img/"/>
+
+
+    <!--规定模板文件的类型和位置-->
+    <bean id="velocityConfigurer"
+          class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/vm/"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">utf-8</prop>
+                <prop key="output.encoding">utf-8</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--配置附加工具，以及将后缀为vm的文件交给下面的Resolver处理-->
+    <bean id="velocityViewResolver"
+          class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="suffix" value=".vm"/>
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml"/>
+    </bean>
+
+</beans>
