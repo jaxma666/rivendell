@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.toys</groupId>
+    <groupId>com.fantasy</groupId>
     <artifactId>rivendell</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -27,7 +27,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.toys</groupId>
+                <groupId>com.fantasy</groupId>
                 <artifactId>rivendell-service</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
@@ -113,6 +113,47 @@
                 <scope>provided</scope>
             </dependency>
 
+            <!--netty-->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.2.Final</version>
+            </dependency>
+
+            <!--log-->
+            <!-- ================================================= -->
+            <!-- 日志及相关依赖（用slf4j+logback代替jcl+log4j） -->
+            <!-- ================================================= -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.2</version>
+            </dependency>
+            <!-- 将现有的jakarta commons logging的调用转换成lsf4j的调用。 -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>1.6.6</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>99.0-does-not-exist</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- slf4j的实现：代替logback，解决日志打在jboss里的问题！ -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.6.6</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.17</version>
+                <scope>runtime</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
