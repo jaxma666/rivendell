@@ -1,0 +1,47 @@
+package com.fantasy.rivendell.service;
+
+import com.alibaba.fastjson.JSON;
+import com.fantasy.rivendell.service.domain.SimpleProtocol;
+import com.fantasy.rivendell.service.message.MessageHandlerFactory;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.Resource;
+
+/**
+ * Created by lingyao on 16/7/13.
+ */
+public class RivendellServerHandler extends SimpleChannelInboundHandler<String> {
+    private static final Logger logger = LoggerFactory.getLogger(RivendellServerHandler.class);
+    @Resource
+    MessageHandlerFactory messageHandlerFactory;
+    @Resource
+    AsynExecutorManager asynExecutorManager;
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+        //协议的解析
+        SimpleProtocol inMessage = null;
+        SimpleProtocol outMessage = new SimpleProtocol();
+        try {
+            inMessage = JSON.parseObject(msg, SimpleProtocol.class);
+        } catch (Exception e) {
+            outMessage.returnError("protocol_error", "协议解析错误");
+            ctx.writeAndFlush(JSON.toJSONString(outMessage) + "\n");
+        }
+        //异步执行业务,不阻塞io线程
+        if (inMessage != null) {
+            SimpleProtocol finalInMessage = inMessage;
+            asynExecutorManager.execute(() -> messageHandlerFactory.getMessageHandler(finalInMessage.getAction())
+                    .handle(ctx, finalInMessage.getContent(), outMessage));
+        }
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        logger.error(ctx.name() + "is disconnected", cause);
+        ctx.close();
+    }
+}
