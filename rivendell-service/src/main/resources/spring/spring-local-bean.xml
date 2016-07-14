@@ -10,12 +10,12 @@
 
     <!-- biz层注解驱动 -->
 
-    <context:component-scan base-package="com.fantasy.rivendell"/>
+    <context:component-scan base-package="com.fantasy.rivendell.service"/>
     <!--spring placeholder -->
     <context:property-placeholder location="classpath:config.properties"/>
 
 
-    <bean id="messageHandlerFactory" class="com.fantasy.rivendell.service.message.MessageHandlerFactory">
+    <bean id="messageHandlerFactory" class="com.fantasy.rivendell.service.message.ActionHandlerFactory">
         <property name="messageHandlerMap">
             <map>
                 <entry key="echo_message" value-ref="echoMessageHandlerImpl"/>

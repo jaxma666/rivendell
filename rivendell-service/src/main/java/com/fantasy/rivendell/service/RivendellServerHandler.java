@@ -2,7 +2,7 @@ package com.fantasy.rivendell.service;
 
 import com.alibaba.fastjson.JSON;
 import com.fantasy.rivendell.service.domain.SimpleProtocol;
-import com.fantasy.rivendell.service.message.MessageHandlerFactory;
+import com.fantasy.rivendell.service.message.ActionHandlerFactory;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 public class RivendellServerHandler extends SimpleChannelInboundHandler<String> {
     private static final Logger logger = LoggerFactory.getLogger(RivendellServerHandler.class);
     @Resource
-    MessageHandlerFactory messageHandlerFactory;
+    ActionHandlerFactory messageHandlerFactory;
     @Resource
     AsynExecutorManager asynExecutorManager;
 
