@@ -1,4 +1,4 @@
-package com.fantasy.rivendell.service.message;
+package com.fantasy.rivendell.service.server.message;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

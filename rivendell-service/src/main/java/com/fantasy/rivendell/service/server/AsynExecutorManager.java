@@ -1,4 +1,4 @@
-package com.fantasy.rivendell.service;
+package com.fantasy.rivendell.service.server;
 
 import io.netty.util.concurrent.DefaultThreadFactory;
 import org.apache.commons.logging.Log;

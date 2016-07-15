@@ -1,4 +1,4 @@
-package com.fantasy.rivendell.service.message;
+package com.fantasy.rivendell.service.server.message;
 
 import com.fantasy.rivendell.service.domain.SimpleProtocol;
 import com.fantasy.rivendell.service.util.ResultFormatUtil;

@@ -1,4 +1,4 @@
-package com.fantasy.rivendell.service;
+package com.fantasy.rivendell.service.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

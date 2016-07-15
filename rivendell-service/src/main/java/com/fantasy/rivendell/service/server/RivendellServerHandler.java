@@ -1,8 +1,8 @@
-package com.fantasy.rivendell.service;
+package com.fantasy.rivendell.service.server;
 
 import com.alibaba.fastjson.JSON;
 import com.fantasy.rivendell.service.domain.SimpleProtocol;
-import com.fantasy.rivendell.service.message.ActionHandlerFactory;
+import com.fantasy.rivendell.service.server.message.ActionHandlerFactory;
 import com.fantasy.rivendell.service.util.ResultFormatUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

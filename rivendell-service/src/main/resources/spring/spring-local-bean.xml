@@ -15,7 +15,7 @@
     <context:property-placeholder location="classpath:config.properties"/>
 
 
-    <bean id="messageHandlerFactory" class="com.fantasy.rivendell.service.message.ActionHandlerFactory">
+    <bean id="messageHandlerFactory" class="com.fantasy.rivendell.service.server.message.ActionHandlerFactory">
         <property name="messageHandlerMap">
             <map>
                 <entry key="echo_message" value-ref="echoMessageHandlerImpl"/>
