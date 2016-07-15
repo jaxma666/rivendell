@@ -3,16 +3,20 @@ package com.fantasy.rivendell.service;
 import com.alibaba.fastjson.JSON;
 import com.fantasy.rivendell.service.domain.SimpleProtocol;
 import com.fantasy.rivendell.service.message.ActionHandlerFactory;
+import com.fantasy.rivendell.service.util.ResultFormatUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
 /**
  * Created by lingyao on 16/7/13.
  */
+
+@Component
 public class RivendellServerHandler extends SimpleChannelInboundHandler<String> {
     private static final Logger logger = LoggerFactory.getLogger(RivendellServerHandler.class);
     @Resource
@@ -29,7 +33,7 @@ public class RivendellServerHandler extends SimpleChannelInboundHandler<String> 
             inMessage = JSON.parseObject(msg, SimpleProtocol.class);
         } catch (Exception e) {
             outMessage.returnError("protocol_error", "协议解析错误");
-            ctx.writeAndFlush(JSON.toJSONString(outMessage) + "\n");
+            ctx.writeAndFlush(ResultFormatUtil.formatResult(outMessage));
         }
         //异步执行业务,不阻塞io线程
         if (inMessage != null) {

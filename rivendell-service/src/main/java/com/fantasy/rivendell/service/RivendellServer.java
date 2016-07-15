@@ -18,14 +18,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 /**
  * Created by lingyao on 16/7/13.
  */
 public class RivendellServer implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RivendellServer.class);
-
+    @Resource
+    RivendellServerHandler rivendellServerHandler;
     private int port;
+    private DelimiterBasedFrameDecoder delimiterBasedFrameDecoder = new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter());
+    private StringEncoder encoder = new StringEncoder();
+    private StringDecoder decoder = new StringDecoder();
 
     RivendellServer(int port) {
         this.port = port;
@@ -43,10 +48,10 @@ public class RivendellServer implements Runnable {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             socketChannel.pipeline()
-                                    .addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()))
-                                    .addLast(new StringDecoder())
-                                    .addLast(new StringEncoder())
-                                    .addLast(new RivendellServerHandler());
+                                    .addLast(delimiterBasedFrameDecoder)
+                                    .addLast(decoder)
+                                    .addLast(encoder)
+                                    .addLast(rivendellServerHandler);
                         }
                     }).option(ChannelOption.SO_BACKLOG, 1024)
                     .childOption(ChannelOption.SO_KEEPALIVE, false)

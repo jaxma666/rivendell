@@ -1,7 +1,7 @@
 package com.fantasy.rivendell.service.message;
 
-import com.alibaba.fastjson.JSON;
 import com.fantasy.rivendell.service.domain.SimpleProtocol;
+import com.fantasy.rivendell.service.util.ResultFormatUtil;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +13,6 @@ public class EchoMessageHandlerImpl implements IActionHandler {
 
     @Override
     public void handle(ChannelHandlerContext ctx, String content, SimpleProtocol outMessage) {
-        ctx.writeAndFlush(JSON.toJSONString(outMessage));
+        ctx.writeAndFlush(ResultFormatUtil.formatResult(outMessage));
     }
 }
