@@ -45,6 +45,12 @@
             <artifactId>spring-context</artifactId>
         </dependency>
 
+        <!--guava-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
     </dependencies>
 
 

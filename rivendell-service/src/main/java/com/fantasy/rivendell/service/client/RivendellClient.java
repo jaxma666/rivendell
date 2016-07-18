@@ -23,11 +23,11 @@ public class RivendellClient {
             Bootstrap b = new Bootstrap();
             b.group(group)
                     .channel(NioSocketChannel.class)
-                    .handler(new RivendellClientHandler());
+                    .handler(new RivendellClientInitailizer());
 
             // Start the connection attempt.
             Channel ch = b.connect(HOST, PORT).sync().channel();
-
+            System.out.println("start!");
             // Read commands from the stdin.
             ChannelFuture lastWriteFuture = null;
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -36,10 +36,8 @@ public class RivendellClient {
                 if (line == null) {
                     break;
                 }
-
                 // Sends the received line to the server.
                 lastWriteFuture = ch.writeAndFlush(line + "\r\n");
-
                 // If user typed the 'bye' command, wait until the server closes
                 // the connection.
                 if ("bye".equals(line.toLowerCase())) {
@@ -47,7 +45,6 @@ public class RivendellClient {
                     break;
                 }
             }
-
             // Wait until all messages are flushed before closing the channel.
             if (lastWriteFuture != null) {
                 lastWriteFuture.sync();
@@ -56,5 +53,4 @@ public class RivendellClient {
             group.shutdownGracefully();
         }
     }
-
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.fantasy.rivendell.service.domain.SimpleProtocol;
 import com.fantasy.rivendell.service.server.message.ActionHandlerFactory;
 import com.fantasy.rivendell.service.util.ResultFormatUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
@@ -15,14 +16,29 @@ import javax.annotation.Resource;
 /**
  * Created by lingyao on 16/7/13.
  */
-
 @Component
+@ChannelHandler.Sharable
 public class RivendellServerHandler extends SimpleChannelInboundHandler<String> {
     private static final Logger logger = LoggerFactory.getLogger(RivendellServerHandler.class);
     @Resource
     ActionHandlerFactory messageHandlerFactory;
     @Resource
     AsynExecutorManager asynExecutorManager;
+    @Resource
+    IConnectionManager connectionManager;
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        logger.error(ctx.name() + "is connected...");
+        connectionManager.addConnection(ctx.name(), ctx);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        logger.error(ctx.name() + "is disconnected...");
+        connectionManager.removeConnection(ctx.name());
+    }
+
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
@@ -46,6 +62,7 @@ public class RivendellServerHandler extends SimpleChannelInboundHandler<String> 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         logger.error(ctx.name() + "is disconnected", cause);
+        connectionManager.removeConnection(ctx.name());
         ctx.close();
     }
 }
