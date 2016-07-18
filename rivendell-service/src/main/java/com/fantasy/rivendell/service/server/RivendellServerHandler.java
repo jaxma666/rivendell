@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 /**
  * Created by lingyao on 16/7/13.
  */
-@Component
+@Component("rivendellServerHandler")
 @ChannelHandler.Sharable
 public class RivendellServerHandler extends SimpleChannelInboundHandler<String> {
     private static final Logger logger = LoggerFactory.getLogger(RivendellServerHandler.class);

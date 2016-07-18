@@ -34,8 +34,8 @@ public class ConnectionManagerImpl implements IConnectionManager {
 
     @Override
     public List getAllConnections() {
-        List<ChannelHandlerContext> result = Lists.newLinkedList();
-        result.addAll(connectionsMap.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList()));
+        List<String> result = Lists.newLinkedList();
+        result.addAll(connectionsMap.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
         return result;
     }
 
