@@ -3,7 +3,6 @@ package com.fantasy.rivendell.service.server;
 import com.alibaba.fastjson.JSON;
 import com.fantasy.rivendell.service.domain.SimpleProtocol;
 import com.fantasy.rivendell.service.server.message.ActionHandlerFactory;
-import com.fantasy.rivendell.service.util.ResultFormatUtil;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -25,18 +24,20 @@ public class RivendellServerHandler extends SimpleChannelInboundHandler<String> 
     @Resource
     AsynExecutorManager asynExecutorManager;
     @Resource
-    IConnectionManager connectionManager;
+    IClientManager clientManager;
+    @Resource
+    IPushManager pushManager;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         logger.error(ctx.name() + "is connected...");
-        connectionManager.addConnection(ctx.name(), ctx);
+        clientManager.addClient(ctx.name(), ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         logger.error(ctx.name() + "is disconnected...");
-        connectionManager.removeConnection(ctx.name());
+        clientManager.removeClient(ctx.name());
     }
 
 
@@ -44,25 +45,23 @@ public class RivendellServerHandler extends SimpleChannelInboundHandler<String> 
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         //协议的解析
         SimpleProtocol inMessage = null;
-        SimpleProtocol outMessage = new SimpleProtocol();
         try {
             inMessage = JSON.parseObject(msg, SimpleProtocol.class);
         } catch (Exception e) {
-            outMessage.returnError("protocol_error", "协议解析错误");
-            ctx.writeAndFlush(ResultFormatUtil.formatResult(outMessage));
+            pushManager.pushToSingleClient(ctx, new SimpleProtocol(false, "protocol_error", "协议解析错误"));
         }
         //异步执行业务,不阻塞io线程
         if (inMessage != null) {
             SimpleProtocol finalInMessage = inMessage;
             asynExecutorManager.execute(() -> messageHandlerFactory.getMessageHandler(finalInMessage.getAction())
-                    .handle(ctx, finalInMessage.getContent(), outMessage));
+                    .handle(ctx, finalInMessage.getContent()));
         }
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         logger.error(ctx.name() + "is disconnected", cause);
-        connectionManager.removeConnection(ctx.name());
+        clientManager.removeClient(ctx.name());
         ctx.close();
     }
 }

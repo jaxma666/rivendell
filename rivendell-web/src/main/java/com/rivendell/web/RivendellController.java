@@ -5,7 +5,7 @@ package com.rivendell.web;
  */
 
 import com.fantasy.rivendell.service.domain.ApiResult;
-import com.fantasy.rivendell.service.server.IConnectionManager;
+import com.fantasy.rivendell.service.server.IClientManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,16 +14,16 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Controller
-public class TestController {
+public class RivendellController {
     @Resource
-    IConnectionManager connectionManager;
+    IClientManager clientManager;
 
-    @RequestMapping("/test")
+    @RequestMapping("/getAllClientsName")
     @ResponseBody
-    public ApiResult<List> test() {
+    public ApiResult<List> getAllClientsName() {
         ApiResult<List> apiResult = new ApiResult<>();
-        List connectionList = connectionManager.getAllConnections();
-        apiResult.setSuccessResult(connectionList);
+        List clientNameList = clientManager.getAllClientsName();
+        apiResult.setSuccessResult(clientNameList);
         return apiResult;
     }
 }

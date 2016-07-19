@@ -9,6 +9,12 @@ public class SimpleProtocol {
     private String action;
     private String content;
 
+    public SimpleProtocol(boolean success, String action, String content) {
+        this.success = success;
+        this.action = action;
+        this.content = content;
+    }
+
     public boolean isSuccess() {
         return success;
     }
