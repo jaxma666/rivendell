@@ -38,7 +38,7 @@
        directory -->
 
     <!--主页-->
-    <mvc:view-controller path="/" view-name="redirect:/index.html"/>
+    <mvc:view-controller path="/" view-name="redirect:/index.htm"/>
 
 
     <mvc:resources mapping="/" location="/index.htm"/>

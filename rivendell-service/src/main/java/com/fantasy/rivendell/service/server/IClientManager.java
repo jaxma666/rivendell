@@ -18,5 +18,7 @@ public interface IClientManager {
 
     List getAllClients();
 
+    Integer getClientsSize();
+
     ChannelHandlerContext getClientsByName(String clientName);
 }

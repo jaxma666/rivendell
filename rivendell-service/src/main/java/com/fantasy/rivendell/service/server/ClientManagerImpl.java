@@ -47,6 +47,11 @@ public class ClientManagerImpl implements IClientManager {
     }
 
     @Override
+    public Integer getClientsSize() {
+        return clientsMap.size();
+    }
+
+    @Override
     public ChannelHandlerContext getClientsByName(String clientName) {
         return clientsMap.get(clientName);
     }

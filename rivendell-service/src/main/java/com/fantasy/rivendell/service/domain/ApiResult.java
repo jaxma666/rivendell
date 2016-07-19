@@ -44,13 +44,15 @@ public class ApiResult<T> {
         this.result = result;
     }
 
-    public void setFailResult(String errorMsg) {
+    public ApiResult<T> returnFailResult(String errorMsg) {
         success = false;
         this.errorMsg = errorMsg;
+        return this;
     }
 
-    public void setSuccessResult(T result) {
+    public ApiResult<T> returnSuccessResult(T result) {
         success = true;
         this.result = result;
+        return this;
     }
 }
