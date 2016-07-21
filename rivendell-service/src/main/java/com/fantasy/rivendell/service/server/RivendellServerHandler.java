@@ -30,14 +30,14 @@ public class RivendellServerHandler extends SimpleChannelInboundHandler<String> 
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.error(ctx.name() + "is connected...");
-        clientManager.addClient(ctx.name(), ctx);
+        logger.error(ctx.channel().id().asLongText() + "is connected...");
+        clientManager.addClient(ctx.channel().id().asLongText(), ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.error(ctx.name() + "is disconnected...");
-        clientManager.removeClient(ctx.name());
+        logger.error(ctx.channel().id().asLongText() + "is disconnected...");
+        clientManager.removeClient(ctx.channel().id().asLongText());
     }
 
 
@@ -60,8 +60,8 @@ public class RivendellServerHandler extends SimpleChannelInboundHandler<String> 
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        logger.error(ctx.name() + "is disconnected", cause);
-        clientManager.removeClient(ctx.name());
+        logger.error(ctx.channel().id().asLongText() + "is disconnected", cause);
+        clientManager.removeClient(ctx.channel().id().asLongText());
         ctx.close();
     }
 }
