@@ -18,7 +18,7 @@
     <bean id="messageHandlerFactory" class="com.fantasy.rivendell.service.server.message.ActionHandlerFactory">
         <property name="messageHandlerMap">
             <map>
-                <entry key="echo_message" value-ref="echoMessageHandlerImpl"/>
+                <entry key="HEART_BEAT" value-ref="heartBeatHandlerImpl"/>
             </map>
         </property>
     </bean>

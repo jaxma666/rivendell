@@ -48,7 +48,7 @@ public class RivendellServerHandler extends SimpleChannelInboundHandler<String> 
         try {
             inMessage = JSON.parseObject(msg, SimpleProtocol.class);
         } catch (Exception e) {
-            pushManager.pushToSingleClient(ctx, new SimpleProtocol(false, "protocol_error", "协议解析错误"));
+            pushManager.pushToSingleClient(ctx, new SimpleProtocol(false, "PROTOCOL_ERROR", "协议解析错误"));
         }
         //异步执行业务,不阻塞io线程
         if (inMessage != null) {

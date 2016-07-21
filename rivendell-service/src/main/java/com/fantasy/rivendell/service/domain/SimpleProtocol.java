@@ -15,6 +15,9 @@ public class SimpleProtocol {
         this.content = content;
     }
 
+    public SimpleProtocol() {
+    }
+
     public boolean isSuccess() {
         return success;
     }

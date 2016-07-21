@@ -24,6 +24,7 @@ public class PushManagerImpl implements IPushManager {
         ChannelHandlerContext ctx = clientManager.getClientsByName(clientName);
         if (ctx == null) {
             logger.error("try to send message to a client who is nonexistent");
+            clientManager.removeClient(clientName);
             return;
         }
         pushToSingleClient(ctx, protocol);

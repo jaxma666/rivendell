@@ -10,13 +10,13 @@ import javax.annotation.Resource;
 /**
  * Created by lingyao on 16/7/14.
  */
-@Component("echoMessageHandlerImpl")
-public class EchoMessageHandlerImpl implements IActionHandler {
+@Component("heartBeatHandlerImpl")
+public class HeartBeatHandlerImpl implements IActionHandler {
     @Resource
     IPushManager pushManager;
 
     @Override
     public void handle(ChannelHandlerContext ctx, String content) {
-        pushManager.pushToSingleClient(ctx, new SimpleProtocol(true, "echo", content));
+        pushManager.pushToSingleClient(ctx, new SimpleProtocol(true, "HEART_BEAT", null));
     }
 }
