@@ -36,6 +36,7 @@ public class RivendellServer implements Runnable {
 
     private int PORT = 8888;
 
+    @Override
     public void run() {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();

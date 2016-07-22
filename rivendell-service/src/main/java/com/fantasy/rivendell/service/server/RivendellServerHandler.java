@@ -60,7 +60,7 @@ public class RivendellServerHandler extends SimpleChannelInboundHandler<String> 
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        logger.error(ctx.channel().id().asLongText() + "is disconnected", cause);
+        logger.error(ctx.channel().id().asLongText() + "is disconnected,cause:{}", cause);
         clientManager.removeClient(ctx.channel().id().asLongText());
         ctx.close();
     }

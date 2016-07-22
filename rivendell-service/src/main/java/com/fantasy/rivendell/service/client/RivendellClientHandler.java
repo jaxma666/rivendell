@@ -33,6 +33,9 @@ public class RivendellClientHandler extends SimpleChannelInboundHandler<String> 
                 closeFuture.addListener((ChannelFutureListener) future -> {
                     Thread.sleep(10 * 1000);
                     System.out.println("开始重连!");
+                    //客户端线程管理不会..好捉急
+                    ctx.executor().shutdownGracefully();
+//                    Thread.currentThread().interrupt();
                 });
             } else if (e.state() == IdleState.WRITER_IDLE) {
                 CommitUtil.commitToServer(ctx, new SimpleProtocol(true, "HEART_BEAT", null));
