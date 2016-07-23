@@ -32,6 +32,8 @@ public class RivendellClient implements Runnable {
                     .handler(new RivendellClientInitailizer());
             Channel channel = b.connect(HOST, PORT).sync().channel();
             System.out.println("client start!");
+//          todo 客户端线程管理,主动向服务端推数据
+
 //            这一段用来测试协议
 //            ChannelFuture lastWriteFuture = null;
 //            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
