@@ -54,7 +54,7 @@
                                     var x = (new Date()).getTime(), // current time
                                             y = getClientNum();
                                     series.addPoint([x, y], true, true);
-                                }, 2000);
+                                }, 10000);
                             }
                         }
                     },
@@ -98,7 +98,7 @@
 
                             for (i = -19; i <= 0; i += 1) {
                                 data.push({
-                                    x: time + i * 2000,
+                                    x: time + i * 10000,
                                     y: 0
                                 });
                             }

@@ -2,13 +2,9 @@ package com.fantasy.rivendell.service.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 /**
  * Created by lingyao on 16/7/15.
@@ -22,12 +18,13 @@ public class RivendellClient implements Runnable {
     }
 
     public void connect() {
-        new Thread(this).start();
+        for (int i = 0; i < 1; i++)
+            new Thread(this).start();
     }
 
     @Override
     public void run() {
-        EventLoopGroup group = new NioEventLoopGroup();
+        EventLoopGroup group = new NioEventLoopGroup(1);
         try {
             Bootstrap b = new Bootstrap();
             b.group(group)
@@ -35,21 +32,23 @@ public class RivendellClient implements Runnable {
                     .handler(new RivendellClientInitailizer());
             Channel channel = b.connect(HOST, PORT).sync().channel();
             System.out.println("client start!");
-            ChannelFuture lastWriteFuture = null;
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+//            这一段用来测试协议
+//            ChannelFuture lastWriteFuture = null;
+//            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-            while (channel.isActive()) {
-                String line = in.readLine();
-                if (line == null) {
-                    break;
-                }
-                // Sends the received line to the server.
-                lastWriteFuture = channel.writeAndFlush(line + "\r\n");
-            }
-            // Wait until all messages are flushed before closing the channel.
-            if (lastWriteFuture != null) {
-                lastWriteFuture.sync();
-            }
+//            while (true) {
+//                String line = in.readLine();
+//                if (line == null) {
+//                    break;
+//                }
+//                // Sends the received line to the server.
+//                lastWriteFuture = channel.writeAndFlush(line + "\r\n");
+//            }
+//            // Wait until all messages are flushed before closing the channel.
+//            if (lastWriteFuture != null) {
+//                lastWriteFuture.sync();
+//            }
+            channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

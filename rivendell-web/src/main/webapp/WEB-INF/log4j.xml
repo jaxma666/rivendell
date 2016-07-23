@@ -19,6 +19,10 @@
     <!--</appender>-->
 
 
+    <category name="client.JmonitorClient">
+        <priority value="off"/>
+    </category>
+
     <root>
         <level value="info"/>
         <appender-ref ref="PROJECT"/>
