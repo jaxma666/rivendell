@@ -16,6 +16,8 @@ map存储channel id和ChannelHandlerContext
 ###监控&&推送后台
 可以看到实时长连接数，并提供推送入口。
 
+![](https://raw.githubusercontent.com/majiaji/rivendell/master/screenshots/1.png)
+
 ###扩展性
 定义了简单的协议SimpleProtocol:
 
