@@ -13,11 +13,6 @@ map存储channel id和ChannelHandlerContext
 ###断线重连
 客户端每10秒发送心跳包，超过2次没有响应则进行断线重连
 
-###监控&&推送后台
-可以看到实时长连接数，并提供推送入口。
-
-![](https://raw.githubusercontent.com/majiaji/rivendell/master/screenshots/1.png)
-
 ###扩展性
 定义了简单的协议SimpleProtocol:
 
@@ -29,4 +24,11 @@ map存储channel id和ChannelHandlerContext
 可以基于此协议实现自己的业务，需要实现IActionHandler接口。
 
 当然也可以定义自己的协议。
+
+###监控&&推送后台
+可以看到实时长连接数，并提供推送入口。
+
+![](https://raw.githubusercontent.com/majiaji/rivendell/master/screenshots/1.png)
+
+
 
