@@ -39,17 +39,17 @@ public class RivendellController {
 
     @RequestMapping("/pushToSingleClient")
     @ResponseBody
-    public ApiResult<Boolean> pushToSingleClient(String clientName) {
+    public ApiResult<Boolean> pushToSingleClient(String clientName, String pushMessage) {
         ApiResult<Boolean> apiResult = new ApiResult<>();
-        pushManager.pushToSingleClient(clientName, new SimpleProtocol(true, "PUSH", "后台单点推送"));
+        pushManager.pushToSingleClient(clientName, new SimpleProtocol(true, "PUSH", "单点推送" + pushMessage));
         return apiResult.returnSuccessResult(true);
     }
 
     @RequestMapping("/broadcast")
     @ResponseBody
-    public ApiResult<Boolean> broadcast() {
+    public ApiResult<Boolean> broadcast(String broadcastMessage) {
         ApiResult<Boolean> apiResult = new ApiResult<>();
-        pushManager.broadcast(new SimpleProtocol(true, "PUSH", "后台广播推送"));
+        pushManager.broadcast(new SimpleProtocol(true, "PUSH", "广播推送:" + broadcastMessage));
         return apiResult.returnSuccessResult(true);
     }
 }

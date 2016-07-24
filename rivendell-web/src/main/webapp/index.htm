@@ -15,8 +15,14 @@
     <h2>rivendell直播间ヾ(￣▽￣)</h2>
 
     <title>rivendell live</title>
-
     <script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+    <link href="css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="css/layoutit.css" rel="stylesheet">
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="js/jquery.htmlClean.js"></script>
+
     <style type="text/css">
         ${demo.css}
     </style>
@@ -115,6 +121,50 @@
 <script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<hr/>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+        </div>
+        <div class="span8">
+            <form>
+                <fieldset>
+                    <legend>服务端推送</legend>
+                    <label class="checkbox"><input type="checkbox"/>全量推送</label>
+                    <span class="help-block">用户名</span>
+                    <input type="text" id="receiverInput"/>
+                    <span class="help-block">推送的信息</span>
+                    <input type="text" id="pushMessageInput"/>
+                    <br/>
+                    <button type="submit" class="btn" id="pushBtn">推送</button>
+                </fieldset>
+            </form>
+        </div>
+        <div class="span2">
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#pushBtn").click(function (e) {
+            e.preventDefault();
+            if ($("input[type='checkbox']").is(':checked')) {
+                //全量推送
+                $.get("/broadcast?broadcastMessage=" + $("#pushMessageInput").val().trim(), function (data) {
+                    console.log(data);
+                });
+            } else {
+                //单点推送
+                $.get("/pushToSingleClient?clientName=" + $("#receiverInput").val().trim()
+                        + "&pushMessage=" + $("#pushMessageInput").val().trim(), function (data) {
+                    console.log(data);
+                });
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
