@@ -29,3 +29,4 @@ map存储channel id和ChannelHandlerContext
 可以看到实时长连接数，并提供推送入口。
 
 ![](https://raw.githubusercontent.com/majiaji/rivendell/master/screenshots/1.png)
+
